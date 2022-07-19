@@ -1,4 +1,4 @@
-function Film() {
+function FilmDetails() {
   return (
     <>
       <section className="film-card film-card--full">
@@ -162,4 +162,4 @@ function Film() {
   );
 }
 
-export default Film;
+export default FilmDetails;
