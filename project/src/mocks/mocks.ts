@@ -1,4 +1,4 @@
-import {CommentGet, Film} from '../types/models';
+import { AuthInfo, CommentGet, Film } from '../types/models';
 
 
 //https://i.pravatar.cc/128
@@ -624,3 +624,10 @@ export const commentsMock: CommentGet[] = [
   }
 ];
 
+export const authInfoMock: AuthInfo = {
+  id: 1,
+  name: 'Mocked User',
+  email: 'mock@mail.com',
+  token: '123456',
+  avatarUrl: 'img/avatar.jpg'
+};

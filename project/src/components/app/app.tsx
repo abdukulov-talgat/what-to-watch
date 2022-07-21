@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import Main from '../../pages/main/main';
 import Login from '../../pages/login/login';
@@ -7,19 +7,15 @@ import Player from '../../pages/player/player';
 import MyList from '../../pages/my-list/my-list';
 import AddReview from '../../pages/add-review/add-review';
 import ProtectedRoute from '../protected-route/protected-route';
-import { Film } from '../../types/models';
+import NotFound from '../../pages/not-found/not-found';
 
 
-type AppProps = {
-  films: Film[],
-}
+function App(): JSX.Element {
 
-function App(props: AppProps): JSX.Element {
-  const {films} = props;
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<Main films={films} promo={films[0]}/>}/>
+        <Route path={AppRoute.Main} element={<Main/>}/>
         <Route path={AppRoute.Login} element={<Login/>}/>
         <Route path={AppRoute.Film} element={<FilmDetails/>}/>
         <Route path={AppRoute.Player} element={<Player/>}/>
@@ -27,7 +23,8 @@ function App(props: AppProps): JSX.Element {
           <Route path={AppRoute.MyList} element={<MyList/>}/>
           <Route path={AppRoute.AddReview} element={<AddReview/>}/>
         </Route>
-        <Route path="*" element={<div>NOT FOUND PAGE.</div>}/>
+        <Route path={AppRoute.NotFound} element={<NotFound/>}/>
+        <Route path="*" element={<Navigate to={AppRoute.NotFound}/>}/>
       </Routes>
     </BrowserRouter>
   );

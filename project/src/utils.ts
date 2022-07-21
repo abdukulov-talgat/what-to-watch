@@ -1,7 +1,8 @@
-import { Film, GenreFilterItem } from './types/models';
+export function humanizeDuration(duration: number) {
+  const date = new Date(0, 0, 0, 0, 0, duration);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
 
-
-export function mapFilmsToGenres(films: Film[], limit: number): GenreFilterItem[] {
-  const uniques = [...new Set(films.map((film) => film.genre))];
-  return uniques.map((name) => ({name, isActive: false})).slice(0, limit);
+  return hours > 0 ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
 }

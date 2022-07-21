@@ -29,7 +29,15 @@ export type CommentGet = {
   date: string,
 }
 
-export type GenreFilterItem = {
+export type AuthInfo = {
+  id: number,
+  avatarUrl: string,
+  email: string,
   name: string,
-  isActive: boolean
+  token: string,
+}
+
+export type User = {
+  email: string,
+  password: string
 }
