@@ -15,6 +15,6 @@ export const ApiRoute = {
   logOut: () => '/logout',
   Promo: () => '/promo',
   Films: () => '/films',
-  FavoriteFilms: () => '/favorite',
+  ChangeFavoriteStatus: (filmId: number, isFavorite: boolean) => `/favorite/${filmId}/${Number(isFavorite)}`,
   Player: (filmId: string) => `/films/${filmId}`,
 };

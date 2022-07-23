@@ -14,7 +14,6 @@ type FilmCardProps = {
 function FilmCard({film}: FilmCardProps) {
   const navigate = useNavigate();
 
-
   return (
     <section className="film-card">
       <div className="film-card__bg">
@@ -53,7 +52,7 @@ function FilmCard({film}: FilmCardProps) {
                 </svg>
                 <span>Play</span>
               </button>
-              <FavoriteButton isFavorite={film.isFavorite}/>
+              <FavoriteButton filmId={film.id}/>
             </div>
           </div>
         </div>

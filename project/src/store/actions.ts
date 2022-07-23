@@ -5,6 +5,13 @@ import { ApiRoute } from '../const';
 import { removeToken, saveToken } from '../services/token';
 
 
+export function changeIsLoading(isLoading: boolean) {
+  return {
+    type: ActionType.ChangeIsLoading,
+    payload: isLoading
+  } as const;
+}
+
 export function login(payload: AuthInfo) {
   return {
     type: ActionType.Login,
@@ -25,31 +32,10 @@ export function setFilms(films: Film[]) {
   } as const;
 }
 
-export function setPromo(film: Film) {
+export function updateFilm(film: Film) {
   return {
-    type: ActionType.SetPromo,
-    payload: film,
-  } as const;
-}
-
-export function setFavoriteFilms(films: Film[]) {
-  return {
-    type: ActionType.SetFavoriteFilms,
-    payload: films,
-  } as const;
-}
-
-export function changeFavoriteFilm(film: Film) {
-  return {
-    type: ActionType.ChangeFavoriteStatus,
-    payload: film,
-  } as const;
-}
-
-export function changeIsLoading(isLoading: boolean) {
-  return {
-    type: ActionType.ChangeIsLoading,
-    payload: isLoading
+    type: ActionType.UpdateFilm,
+    payload: film
   } as const;
 }
 
@@ -66,6 +52,7 @@ export function signIn(credentials: UserCredentials): ThunkActionResult {
   return async function (dispatch, getState, api) {
     const response = await api.post<AuthInfo>(ApiRoute.signIn(), credentials);
     saveToken(response.data.token);
+    dispatch(loadFilms());
     dispatch(login(response.data));
   };
 }
@@ -74,14 +61,8 @@ export function signOut(): ThunkActionResult {
   return async function (dispatch, getState, api) {
     await api.delete(ApiRoute.logOut());
     removeToken();
+    dispatch(loadFilms());
     dispatch(logout());
-  };
-}
-
-export function loadPromo(): ThunkActionResult {
-  return async function (dispatch, getState, api) {
-    const response = await api.get<Film>(ApiRoute.Promo());
-    dispatch(setPromo(response.data));
   };
 }
 
@@ -92,9 +73,9 @@ export function loadFilms(): ThunkActionResult {
   };
 }
 
-export function loadFavoriteFilms(): ThunkActionResult {
+export function changeFavoriteStatus(id: number, isFavorite: boolean): ThunkActionResult {
   return async function (dispatch, getState, api) {
-    const response = await api.get<Film[]>(ApiRoute.FavoriteFilms());
-    dispatch(setFavoriteFilms(response.data));
+    const response = await api.post<Film>(ApiRoute.ChangeFavoriteStatus(id, !isFavorite));
+    dispatch(updateFilm(response.data));
   };
 }

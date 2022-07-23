@@ -1,34 +1,27 @@
 import {
-  changeFavoriteFilm,
+  changeIsLoading,
   logout,
   login,
-  setFilms,
-  setPromo,
-  changeIsLoading,
-  setFavoriteFilms
+  setFilms, updateFilm,
 } from '../store/actions';
 import { ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { StoreState } from '../store/reducer';
 import { AxiosInstance } from 'axios';
 
 export enum ActionType {
+  ChangeIsLoading = 'init/isLoading',
   Login = 'user/login',
   Logout = 'user/logout',
-  SetFilms = 'data/films',
-  SetPromo = 'data/promo',
-  SetFavoriteFilms = 'data/favoriteFilms',
-  ChangeFavoriteStatus = 'favorite/changeStatus',
-  ChangeIsLoading = 'init/isLoading',
+  SetFilms = 'films/setFilms',
+  UpdateFilm = 'films/updateFilm',
 }
 
 export type Actions =
+  | ReturnType<typeof changeIsLoading>
   | ReturnType<typeof login>
   | ReturnType<typeof logout>
   | ReturnType<typeof setFilms>
-  | ReturnType<typeof setPromo>
-  | ReturnType<typeof setFavoriteFilms>
-  | ReturnType<typeof changeFavoriteFilm>
-  | ReturnType<typeof changeIsLoading>
+  | ReturnType<typeof updateFilm>
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, StoreState, AxiosInstance, Actions>
 export type ThunkAppDispatch = ThunkDispatch<StoreState, AxiosInstance, Actions>
