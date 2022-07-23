@@ -7,7 +7,8 @@ type FavoriteButtonProps = {
 }
 
 function FavoriteButton({isFavorite}: FavoriteButtonProps) {
-  const favoriteFilmsCount = useAppSelector((state) => state.favoriteFilms.length);
+  const favoriteFilmsCount = useAppSelector(
+    (state) => state.films.filter((film) => film.isFavorite).length);
 
   return (
     <button className="btn btn--list film-card__button" type="button">
