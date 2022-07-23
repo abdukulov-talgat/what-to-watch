@@ -11,18 +11,18 @@ function ProgressBar({position, onTogglerDrag}: ProgressbarProps) {
 
   function handleMouseDown(evt: React.MouseEvent<HTMLDivElement>) {
     evt.preventDefault();
-    console.log(`${evt.currentTarget} DOWN`);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
   }
 
   function handleMouseUp(evt: MouseEvent) {
-    console.log(`${evt.currentTarget} UP`);
+    evt.preventDefault();
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('mouseup', handleMouseUp);
   }
 
   function handleMouseMove(evt: MouseEvent) {
+    evt.preventDefault();
     onTogglerDrag(evt);
   }
 

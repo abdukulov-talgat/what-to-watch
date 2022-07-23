@@ -16,4 +16,5 @@ export const ApiRoute = {
   Promo: () => '/promo',
   Films: () => '/films',
   FavoriteFilms: () => '/favorite',
+  Player: (filmId: string) => `/films/${filmId}`,
 };

@@ -1,11 +1,14 @@
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/store';
-import { AppRoute } from '../../const';
-import { SyntheticEvent, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ApiRoute } from '../../const';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import PlayButton from '../../components/play-button/play-button';
 import { humanizeDuration } from '../../utils';
 import Spinner from '../../components/spinner/spinner';
 import ProgressBar from '../../components/progress-bar/progress-bar';
+import { Film } from '../../types/models';
+import { createAPI } from '../../services/api';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 const SMOOTHER_MULTIPLIER = 66;
 
@@ -16,13 +19,26 @@ type PlayerParams = {
 function Player() {
   const navigate = useNavigate();
   const {id} = useParams<PlayerParams>();
-  const film = useAppSelector((state) => state.films.find((f) => f.id === Number(id)));
+  const [film, setFilm] = useState<null | Film>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isLoading,] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [timeElapsed, setTimeElapsed] = useState('');
   const [progressPosition, setProgressPosition] = useState(0);
 
+  useEffect(() => {
+    if (id && isLoading) {
+      createAPI().get<Film>(ApiRoute.Player(id))
+        .then((response) => {
+          setFilm(response.data);
+          setIsLoading(false);
+        },
+        (reason: AxiosError) => {
+          toast.error(`${reason.message}. Will be redirected to home page.`);
+          setTimeout(() => navigate('/'), 3000);
+        });
+    }
+  }, [id, isLoading, navigate]);
 
   function handlePlayButtonClick() {
     if (videoRef.current === null) {
@@ -49,17 +65,14 @@ function Player() {
     }
   }
 
-  if (!film) {
-    return <Navigate to={AppRoute.NotFound}/>;
-  }
-
   return (
-    <>
-      {isLoading && <Spinner/>}
+    isLoading ?
+      <Spinner/>
+      :
       <div className="player">
         <video className="player__video"
-          src={film.videoLink}
-          poster={film.posterImage}
+          src={film?.videoLink}
+          poster={film?.posterImage}
           ref={videoRef}
           onTimeUpdate={handleTimeUpdate}
           onEnded={() => setIsPlaying(false)}
@@ -79,9 +92,11 @@ function Player() {
               onPlayButtonClick={handlePlayButtonClick}
             />
 
-            <div className="player__name">{film.name}</div>
+            <div className="player__name">{film?.name}</div>
 
-            <button type="button" className="player__full-screen" onClick={() => videoRef.current?.requestFullscreen()}>
+            <button type="button" className="player__full-screen"
+              onClick={() => videoRef.current?.requestFullscreen()}
+            >
               <svg viewBox="0 0 27 27" width="27" height="27">
                 <use xlinkHref="#full-screen"></use>
               </svg>
@@ -90,7 +105,6 @@ function Player() {
           </div>
         </div>
       </div>
-    </>
   );
 
 }
