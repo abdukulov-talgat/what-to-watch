@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ApiRoute } from '../../const';
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import PlayButton from '../../components/play-button/play-button';
+import PlayerPlay from '../../components/player-play/player-play';
 import { humanizeDuration } from '../../utils';
 import Spinner from '../../components/spinner/spinner';
 import ProgressBar from '../../components/progress-bar/progress-bar';
@@ -87,7 +87,7 @@ function Player() {
           </div>
 
           <div className="player__controls-row">
-            <PlayButton
+            <PlayerPlay
               isPlaying={isPlaying}
               onPlayButtonClick={handlePlayButtonClick}
             />

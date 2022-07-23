@@ -1,31 +1,23 @@
 import React from 'react';
+import { AppRoute } from '../../const';
+import { useNavigate } from 'react-router-dom';
 
 type PlayButtonProps = {
-  isPlaying: boolean,
-  onPlayButtonClick: (evt: React.MouseEvent<HTMLButtonElement>) => void
+  filmId: number
 }
 
-function PlayButton({isPlaying, onPlayButtonClick}: PlayButtonProps) {
+function PlayButton({filmId}: PlayButtonProps) {
+  const navigate = useNavigate();
+
   return (
-    <button type="button" className="player__play"
-      onClick={onPlayButtonClick}
+    <button className="btn btn--play film-card__button" type="button"
+      onClick={() => navigate(AppRoute.Player.replace(':id', filmId.toString())
+      )}
     >
-      {
-        isPlaying ?
-          <>
-            <svg viewBox="0 0 14 21" width="14" height="21">
-              <use xlinkHref="#pause"></use>
-            </svg>
-            <span>Pause</span>
-          </>
-          :
-          <>
-            <svg viewBox="0 0 19 19" width="19" height="19">
-              <use xlinkHref="#play-s"></use>
-            </svg>
-            <span>Play</span>
-          </>
-      }
+      <svg viewBox="0 0 19 19" width="19" height="19">
+        <use xlinkHref="#play-s"></use>
+      </svg>
+      <span>Play</span>
     </button>
   );
 }

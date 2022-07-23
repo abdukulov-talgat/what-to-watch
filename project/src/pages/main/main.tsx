@@ -1,9 +1,8 @@
-import FilmCard from '../../components/film-card/film-card';
 import SmallFilmCard from '../../components/small-film-card/small-film-card';
 import { useAppSelector } from '../../hooks/store';
 import PageFooter from '../../components/page-footer/page-footer';
 import GenresList from '../../components/genres-list/genres-list';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { mapFilmsToGenres } from '../../utils';
 import { Film } from '../../types/models';
 import { createAPI } from '../../services/api';
@@ -11,6 +10,10 @@ import { ApiRoute } from '../../const';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import Spinner from '../../components/spinner/spinner';
+import Logo from '../../components/logo/logo';
+import UserBlock from '../../components/user-block/user-block';
+import PlayButton from '../../components/play-button/play-button';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 
 const MAX_GENRES = 10; //with All Genres
 const CARDS_TO_RENDER_INIT = 8;
@@ -53,7 +56,41 @@ function Main(): JSX.Element {
       <Spinner/>
       :
       <>
-        <FilmCard film={promo}/>
+        <section className="film-card">
+          <div className="film-card__bg">
+            <img src={promo.backgroundImage} alt={promo.name}/>
+          </div>
+
+          <h1 className="visually-hidden">WTW</h1>
+
+          <header className="page-header film-card__head">
+            <Logo/>
+            <UserBlock/>
+          </header>
+
+          <div className="film-card__wrap">
+            <div className="film-card__info">
+              <div className="film-card__poster">
+                <img src={promo.posterImage} alt={promo.name} width="218"
+                  height="327"
+                />
+              </div>
+
+              <div className="film-card__desc">
+                <h2 className="film-card__title">{promo.name}</h2>
+                <p className="film-card__meta">
+                  <span className="film-card__genre">{promo.genre}</span>
+                  <span className="film-card__year">{promo.released}</span>
+                </p>
+
+                <div className="film-card__buttons">
+                  <PlayButton filmId={promo.id}/>
+                  <FavoriteButton filmId={promo.id}/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         <div className="page-content">
           <section className="catalog">
             <h2 className="catalog__title visually-hidden">Catalog</h2>
