@@ -1,48 +1,34 @@
-import { AuthInfo, Film } from './models';
+import {
+  changeFavoriteFilm,
+  logout,
+  login,
+  setFilms,
+  setPromo,
+  changeIsLoading,
+  setFavoriteFilms
+} from '../store/actions';
+import { ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { StoreState } from '../store/reducer';
+import { AxiosInstance } from 'axios';
 
 export enum ActionType {
-  SetAuthInfo = 'user/setAuthInfo',
-  RemoveAuthInfo = 'user/removeAuthInfo',
-  SetFilms = 'films/setFilms',
-  SetPromoFilm = '/promo/setPromoFilm',
-  SetManyFavoriteFilms = '/favorite/setManyFavoriteFilms',
-  ChangeFavoriteFilmAction = '/favorite/changeFavoriteFilm',
+  Login = 'user/login',
+  Logout = 'user/logout',
+  SetFilms = 'data/films',
+  SetPromo = 'data/promo',
+  SetFavoriteFilms = 'data/favoriteFilms',
+  ChangeFavoriteStatus = 'favorite/changeStatus',
+  ChangeIsLoading = 'init/isLoading',
 }
-
-export type SetAuthInfoAction = {
-  type: ActionType.SetAuthInfo,
-  payload: AuthInfo,
-}
-
-export type RemoveAuthInfoAction = {
-  type: ActionType.RemoveAuthInfo,
-}
-
-export type SetFilmsAction = {
-  type: ActionType.SetFilms,
-  payload: Film[],
-}
-
-export type SetPromoFilmAction = {
-  type: ActionType.SetPromoFilm,
-  payload: Film,
-}
-
-export type AddManyFavoriteFilmsAction = {
-  type: ActionType.SetManyFavoriteFilms,
-  payload: Film[],
-}
-
-export type ChangeFavoriteFilmAction = {
-  type: ActionType.ChangeFavoriteFilmAction,
-  payload: Film,
-}
-
 
 export type Actions =
-  | SetAuthInfoAction
-  | RemoveAuthInfoAction
-  | SetFilmsAction
-  | SetPromoFilmAction
-  | AddManyFavoriteFilmsAction
-  | ChangeFavoriteFilmAction
+  | ReturnType<typeof login>
+  | ReturnType<typeof logout>
+  | ReturnType<typeof setFilms>
+  | ReturnType<typeof setPromo>
+  | ReturnType<typeof setFavoriteFilms>
+  | ReturnType<typeof changeFavoriteFilm>
+  | ReturnType<typeof changeIsLoading>
+
+export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, StoreState, AxiosInstance, Actions>
+export type ThunkAppDispatch = ThunkDispatch<StoreState, AxiosInstance, Actions>

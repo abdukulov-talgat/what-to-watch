@@ -59,9 +59,8 @@ function Player() {
       <div className="player">
         <video className="player__video"
           src={film.videoLink}
-          poster={film.posterImg}
+          poster={film.posterImage}
           ref={videoRef}
-          onCanPlay={() => console.log('123')}
           onTimeUpdate={handleTimeUpdate}
           onEnded={() => setIsPlaying(false)}
         />

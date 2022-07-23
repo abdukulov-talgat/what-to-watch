@@ -9,8 +9,11 @@ export enum AppRoute {
   NotFound = '/notfound'
 }
 
-export enum AuthorizationStatus {
-  Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
-  Unknown = 'UNKNOWN',
-}
+export const ApiRoute = {
+  checkToken: () => '/login',
+  signIn: () => '/login',
+  logOut: () => '/logout',
+  Promo: () => '/promo',
+  Films: () => '/films',
+  FavoriteFilms: () => '/favorite',
+};

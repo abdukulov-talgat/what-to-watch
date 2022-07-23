@@ -1,13 +1,11 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { getToken } from './token';
 
-
-type OnauthorizedCallback = () => void;
 
 const BASE_URL = 'https://10.react.pages.academy/wtw';
 const TIMEOUT = 5000;
 
-function createApi(callback: OnauthorizedCallback) {
+function createAPI() {
   const api = axios.create({
     baseURL: BASE_URL,
     timeout: TIMEOUT,
@@ -24,16 +22,7 @@ function createApi(callback: OnauthorizedCallback) {
     }
   );
 
-  api.interceptors.response.use(
-    (response) => response,
-    (error: AxiosError) => {
-      if (error.response?.status === 401) {
-        return callback();
-      }
-
-      return Promise.reject(error);
-    }
-  );
+  return api;
 }
 
-export { createApi };
+export { createAPI };

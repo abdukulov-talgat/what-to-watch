@@ -14,10 +14,11 @@ type FilmCardProps = {
 function FilmCard({film}: FilmCardProps) {
   const navigate = useNavigate();
 
+
   return (
     <section className="film-card">
       <div className="film-card__bg">
-        <img src={film.backgroundImg} alt={film.name}/>
+        <img src={film.backgroundImage} alt={film.name}/>
       </div>
 
       <h1 className="visually-hidden">WTW</h1>
@@ -30,7 +31,7 @@ function FilmCard({film}: FilmCardProps) {
       <div className="film-card__wrap">
         <div className="film-card__info">
           <div className="film-card__poster">
-            <img src={film.posterImg} alt={film.name} width="218"
+            <img src={film.posterImage} alt={film.name} width="218"
               height="327"
             />
           </div>

@@ -8,25 +8,32 @@ import MyList from '../../pages/my-list/my-list';
 import AddReview from '../../pages/add-review/add-review';
 import ProtectedRoute from '../protected-route/protected-route';
 import NotFound from '../../pages/not-found/not-found';
+import { useAppSelector } from '../../hooks/store';
+import Spinner from '../spinner/spinner';
 
 
 function App(): JSX.Element {
+  const isLoading = useAppSelector((state) => state.isLoading);
+
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={AppRoute.Main} element={<Main/>}/>
-        <Route path={AppRoute.Login} element={<Login/>}/>
-        <Route path={AppRoute.Film} element={<FilmDetails/>}/>
-        <Route path={AppRoute.Player} element={<Player/>}/>
-        <Route element={<ProtectedRoute/>}>
-          <Route path={AppRoute.MyList} element={<MyList/>}/>
-          <Route path={AppRoute.AddReview} element={<AddReview/>}/>
-        </Route>
-        <Route path={AppRoute.NotFound} element={<NotFound/>}/>
-        <Route path="*" element={<Navigate to={AppRoute.NotFound}/>}/>
-      </Routes>
-    </BrowserRouter>
+    isLoading ?
+      <Spinner/>
+      :
+      <BrowserRouter>
+        <Routes>
+          <Route path={AppRoute.Main} element={<Main/>}/>
+          <Route path={AppRoute.Login} element={<Login/>}/>
+          <Route path={AppRoute.Film} element={<FilmDetails/>}/>
+          <Route path={AppRoute.Player} element={<Player/>}/>
+          <Route element={<ProtectedRoute/>}>
+            <Route path={AppRoute.MyList} element={<MyList/>}/>
+            <Route path={AppRoute.AddReview} element={<AddReview/>}/>
+          </Route>
+          <Route path={AppRoute.NotFound} element={<NotFound/>}/>
+          <Route path="*" element={<Navigate to={AppRoute.NotFound}/>}/>
+        </Routes>
+      </BrowserRouter>
   );
 }
 

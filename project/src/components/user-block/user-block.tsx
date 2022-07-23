@@ -1,23 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { removeAuthInfoAction } from '../../store/actions';
+import { signOut } from '../../store/actions';
 
 
 function UserBlock() {
   const dispatch = useAppDispatch();
   const authInfo = useAppSelector((state) => state.authInfo);
   const isAuth = authInfo !== null;
-
+  const navigate = useNavigate();
 
   function handleLogoutClick(evt: React.MouseEvent<HTMLAnchorElement>) {
     evt.preventDefault();
-    dispatch(removeAuthInfoAction());
+    dispatch(signOut());
+    navigate(AppRoute.Main);
   }
 
   return (
     <ul className="user-block">
+
       {
         isAuth ?
           <>
@@ -35,7 +37,6 @@ function UserBlock() {
           :
           <Link to={AppRoute.Login} className="user-block__link">Sign in</Link>
       }
-
 
     </ul>
   );

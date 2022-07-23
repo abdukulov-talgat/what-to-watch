@@ -1,68 +1,100 @@
-import { AuthInfo, Film, } from '../types/models';
-import {
-  ActionType,
-  AddManyFavoriteFilmsAction,
-  ChangeFavoriteFilmAction,
-  RemoveAuthInfoAction,
-  SetAuthInfoAction,
-  SetFilmsAction,
-  SetPromoFilmAction
-} from '../types/actions';
+import { AuthInfo, Film, UserCredentials, } from '../types/models';
+import { ActionType, ThunkActionResult, } from '../types/actions';
+
+import { ApiRoute } from '../const';
+import { removeToken, saveToken } from '../services/token';
 
 
-export function setAuthInfoAction(payload: AuthInfo): SetAuthInfoAction {
+export function login(payload: AuthInfo) {
   return {
-    type: ActionType.SetAuthInfo,
+    type: ActionType.Login,
     payload: payload
-  };
+  } as const;
 }
 
-export function removeAuthInfoAction(): RemoveAuthInfoAction {
+export function logout() {
   return {
-    type: ActionType.RemoveAuthInfo
-  };
+    type: ActionType.Logout
+  } as const;
 }
 
-export function setFilms(films: Film[]): SetFilmsAction {
+export function setFilms(films: Film[]) {
   return {
     type: ActionType.SetFilms,
     payload: films,
-  };
+  } as const;
 }
 
-export function setPromoFilm(film: Film): SetPromoFilmAction {
+export function setPromo(film: Film) {
   return {
-    type: ActionType.SetPromoFilm,
+    type: ActionType.SetPromo,
     payload: film,
-  };
+  } as const;
 }
 
-export function setManyFavoriteFilms(films: Film[]): AddManyFavoriteFilmsAction {
+export function setFavoriteFilms(films: Film[]) {
   return {
-    type: ActionType.SetManyFavoriteFilms,
+    type: ActionType.SetFavoriteFilms,
     payload: films,
-  };
+  } as const;
 }
 
-export function changeFavoriteFilm(film: Film): ChangeFavoriteFilmAction {
+export function changeFavoriteFilm(film: Film) {
   return {
-    type: ActionType.ChangeFavoriteFilmAction,
+    type: ActionType.ChangeFavoriteStatus,
     payload: film,
-  };
+  } as const;
+}
+
+export function changeIsLoading(isLoading: boolean) {
+  return {
+    type: ActionType.ChangeIsLoading,
+    payload: isLoading
+  } as const;
 }
 
 //Thunks
 
-// export function signIn(user: User) {
-//   return async function (dispatch: AppDispatch, getState: RootState, api: AxiosInstance): Promise<void> {
-//     const response = await api.post('/login', user);
-//     console.log(response);
-//     dispatch();
-//   };
-// }
-//
-// export function checkToken() {
-//   return async function (dispatch: any, getState: any, api: any) {
-//     console.log('checking token');
-//   };
-// }
+export function checkToken(): ThunkActionResult {
+  return async function (dispatch, getState, api) {
+    const response = await api.get<AuthInfo>(ApiRoute.checkToken());
+    dispatch(login(response.data));
+  };
+}
+
+export function signIn(credentials: UserCredentials): ThunkActionResult {
+  return async function (dispatch, getState, api) {
+    const response = await api.post<AuthInfo>(ApiRoute.signIn(), credentials);
+    saveToken(response.data.token);
+    dispatch(login(response.data));
+  };
+}
+
+export function signOut(): ThunkActionResult {
+  return async function (dispatch, getState, api) {
+    await api.delete(ApiRoute.logOut());
+    removeToken();
+    dispatch(logout());
+  };
+}
+
+export function loadPromo(): ThunkActionResult {
+  return async function (dispatch, getState, api) {
+    const response = await api.get<Film>(ApiRoute.Promo());
+    dispatch(setPromo(response.data));
+  };
+}
+
+export function loadFilms(): ThunkActionResult {
+  return async function (dispatch, getState, api) {
+    const response = await api.get<Film[]>(ApiRoute.Films());
+    dispatch(setFilms(response.data));
+  };
+}
+
+export function loadFavoriteFilms(): ThunkActionResult {
+  return async function (dispatch, getState, api) {
+    const response = await api.get<Film[]>(ApiRoute.FavoriteFilms());
+    dispatch(setFavoriteFilms(response.data));
+  };
+}

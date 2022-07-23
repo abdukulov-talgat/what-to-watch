@@ -6,17 +6,19 @@ export type StoreState = {
   favoriteFilms: Film[],
   films: Film[],
   promo: Film,
+  isLoading: boolean,
 }
 
 const initialState: StoreState = {
+  isLoading: true,
   authInfo: null,
   favoriteFilms: [],
   films: [],
   promo: {
     name: 'War of the Worlds',
-    posterImg: 'https://10.react.pages.academy/static/film/poster/War_of_the_Worlds.jpg',
-    previewImg: 'https://10.react.pages.academy/static/film/preview/war-of-the-worlds.jpg',
-    backgroundImg: 'https://10.react.pages.academy/static/film/background/War_of_the_Worlds.jpg',
+    posterImage: 'https://10.react.pages.academy/static/film/poster/War_of_the_Worlds.jpg',
+    previewImage: 'https://10.react.pages.academy/static/film/preview/war-of-the-worlds.jpg',
+    backgroundImage: 'https://10.react.pages.academy/static/film/background/War_of_the_Worlds.jpg',
     backgroundColor: '#9B7E61',
     description: 'As Earth is invaded by alien tripod fighting machines, one family fights for survival.',
     rating: 9.3,
@@ -39,32 +41,42 @@ const initialState: StoreState = {
 
 function reducer(state: StoreState = initialState, action: Actions) {
   switch (action.type) {
-    case ActionType.SetAuthInfo:
+    case ActionType.ChangeIsLoading:
+      return {
+        ...state,
+        isLoading: action.payload
+      };
+
+    case ActionType.Login:
       return {
         ...state,
         authInfo: action.payload,
       };
-    case ActionType.RemoveAuthInfo:
+
+    case ActionType.Logout:
       return {
         ...state,
         authInfo: null,
       };
-    case ActionType.SetPromoFilm:
+
+    case ActionType.SetPromo:
       return {
         ...state,
         promo: action.payload,
       };
+
     case ActionType.SetFilms:
       return {
         ...state,
         films: action.payload,
       };
-    case ActionType.SetManyFavoriteFilms:
+
+    case ActionType.SetFavoriteFilms:
       return {
         ...state,
         favoriteFilms: action.payload,
       };
-    case ActionType.ChangeFavoriteFilmAction: {
+    case ActionType.ChangeFavoriteStatus: {
       const index = state.favoriteFilms.findIndex((film) => film.id === action.payload.id);
       let newFavoriteFilms: Film[];
 

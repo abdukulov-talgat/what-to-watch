@@ -1,9 +1,9 @@
 export type Film = {
   id: number,
   name: string,
-  posterImg: string,
-  previewImg: string,
-  backgroundImg: string,
+  posterImage: string,
+  previewImage: string,
+  backgroundImage: string,
   backgroundColor: string,
   videoLink: string,
   previewVideoLink: string,
@@ -37,7 +37,7 @@ export type AuthInfo = {
   token: string,
 }
 
-export type User = {
+export type UserCredentials = {
   email: string,
   password: string
 }
