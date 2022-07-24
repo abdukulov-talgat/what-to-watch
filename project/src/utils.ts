@@ -45,3 +45,7 @@ export function mapRatingToWord(rating: number) {
   }
   return 'Awesome';
 }
+
+export function commentIsValid(comment: string) {
+  return comment.length >= 50 && comment.length <= 400;
+}
