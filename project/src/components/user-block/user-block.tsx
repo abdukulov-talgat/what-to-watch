@@ -24,7 +24,7 @@ function UserBlock() {
         isAuth ?
           <>
             <li className="user-block__item">
-              <div className="user-block__avatar">
+              <div className="user-block__avatar" onClick={() => navigate(AppRoute.MyList)}>
                 <img src={authInfo.avatarUrl} alt="User avatar" width="63" height="63"/>
               </div>
             </li>

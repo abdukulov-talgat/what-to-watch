@@ -43,14 +43,14 @@ export function updateFilm(film: Film) {
 
 export function checkToken(): ThunkActionResult {
   return async function (dispatch, getState, api) {
-    const response = await api.get<AuthInfo>(ApiRoute.checkToken());
+    const response = await api.get<AuthInfo>(ApiRoute.CheckToken());
     dispatch(login(response.data));
   };
 }
 
 export function signIn(credentials: UserCredentials): ThunkActionResult {
   return async function (dispatch, getState, api) {
-    const response = await api.post<AuthInfo>(ApiRoute.signIn(), credentials);
+    const response = await api.post<AuthInfo>(ApiRoute.SignIn(), credentials);
     saveToken(response.data.token);
     dispatch(loadFilms());
     dispatch(login(response.data));
@@ -59,7 +59,7 @@ export function signIn(credentials: UserCredentials): ThunkActionResult {
 
 export function signOut(): ThunkActionResult {
   return async function (dispatch, getState, api) {
-    await api.delete(ApiRoute.logOut());
+    await api.delete(ApiRoute.SignOut());
     removeToken();
     dispatch(loadFilms());
     dispatch(logout());

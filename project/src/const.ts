@@ -10,9 +10,9 @@ export enum AppRoute {
 }
 
 export const ApiRoute = {
-  checkToken: () => '/login',
-  signIn: () => '/login',
-  logOut: () => '/logout',
+  CheckToken: () => '/login',
+  SignIn: () => '/login',
+  SignOut: () => '/logout',
   Promo: () => '/promo',
   Films: () => '/films',
   SingleFilm: (id: number) => `/films/${id}`,
@@ -20,6 +20,7 @@ export const ApiRoute = {
   Comments: (id: number) => `/comments/${id}`,
   ChangeFavoriteStatus: (filmId: number, isFavorite: boolean) => `/favorite/${filmId}/${Number(isFavorite)}`,
   Player: (filmId: string) => `/films/${filmId}`,
+  Favorite: () => '/favorite',
 };
 
 export const REDIRECT_DELAY = 3000;
