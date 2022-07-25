@@ -29,4 +29,4 @@ function Rating({onRatingChange, value, disabled, starsCount = 10}: RatingProps)
   );
 }
 
-export default Rating;
+export default React.memo(Rating);

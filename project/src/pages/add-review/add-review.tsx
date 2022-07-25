@@ -1,7 +1,7 @@
 import Logo from '../../components/logo/logo';
 import Breadcrumbs from '../../components/breadcrumbs/breadcrumbs';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { createAPI } from '../../services/api';
 import { CommentGet, Film } from '../../types/models';
 import { ApiRoute, AppRoute } from '../../const';
@@ -11,6 +11,7 @@ import Spinner from '../../components/spinner/spinner';
 import UserBlock from '../../components/user-block/user-block';
 import Rating from '../../components/rating/rating';
 import { commentIsValid } from '../../utils';
+import React from 'react';
 
 
 function AddReview() {
@@ -22,6 +23,7 @@ function AddReview() {
   const [comment, setComment] = useState('');
   const [isSending, setIsSending] = useState(false);
 
+
   useEffect(() => () => {
     createAPI().get<Film>(ApiRoute.SingleFilm(Number(id)))
       .then((response) => setFilm(response.data))
@@ -31,6 +33,8 @@ function AddReview() {
       .finally(() => setIsLoading(false));
 
   }, [id]);
+
+  const handleRatingChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => setRating(Number(evt.target.value)), []);
 
   if (!id) {
     return <Navigate to={AppRoute.NotFound}/>;
@@ -56,9 +60,6 @@ function AddReview() {
       .finally(() => setIsSending(false));
   }
 
-  function handleRatingChange(evt: ChangeEvent<HTMLInputElement>) {
-    setRating(Number(evt.target.value));
-  }
 
   function isFormValid() {
     return commentIsValid(comment) && rating >= 1;

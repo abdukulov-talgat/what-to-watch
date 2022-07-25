@@ -30,4 +30,4 @@ function PlayerPlay({isPlaying, onPlayButtonClick}: PlayerPlayProps) {
   );
 }
 
-export default PlayerPlay;
+export default React.memo(PlayerPlay, (prev, next) => prev.isPlaying === next.isPlaying);

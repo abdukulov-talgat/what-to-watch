@@ -23,4 +23,10 @@ function Breadcrumbs({items}: BreadcrumbsProps) {
   );
 }
 
-export default Breadcrumbs;
+export default React.memo(Breadcrumbs, (prevState, nextState) => {
+  if(prevState.items.length !== nextState.items.length){
+    return false;
+  }
+
+  return prevState.items.some((item, index) => item !== nextState.items[index]);
+});

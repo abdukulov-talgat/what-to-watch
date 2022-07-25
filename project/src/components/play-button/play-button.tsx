@@ -22,4 +22,4 @@ function PlayButton({filmId}: PlayButtonProps) {
   );
 }
 
-export default PlayButton;
+export default React.memo(PlayButton);
