@@ -59,5 +59,5 @@ function FavoriteButton({filmId}: FavoriteButtonProps) {
   );
 }
 
-export default FavoriteButton;
+export default React.memo(FavoriteButton);
 

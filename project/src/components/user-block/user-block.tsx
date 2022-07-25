@@ -42,4 +42,4 @@ function UserBlock() {
   );
 }
 
-export default UserBlock;
+export default React.memo(UserBlock);

@@ -1,3 +1,4 @@
+import React from 'react';
 import Logo from '../logo/logo';
 
 function PageFooter() {
@@ -12,4 +13,4 @@ function PageFooter() {
   );
 }
 
-export default PageFooter;
+export default React.memo(PageFooter);
